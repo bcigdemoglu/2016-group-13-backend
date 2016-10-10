@@ -43,7 +43,9 @@ To test RESTful API locally (must have mongo installed):
 
 Remote database shell access:
 ```bash
-mongo ds053126.mlab.com:53126/heroku_wxn3r3t7 -u heroku_wxn3r3t7 -p jnhrj28k1m0o323n5s6eftl9il
+uri=$(heroku config | grep MONGODB_URI) &&
+[[ $uri =~ \/\/(.*):(.*)@(.*)$ ]] &&
+mongo "${BASH_REMATCH[3]}" -u "${BASH_REMATCH[1]}" -p "${BASH_REMATCH[2]}"
 ```
 
 Database web access:
