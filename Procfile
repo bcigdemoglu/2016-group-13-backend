@@ -1,0 +1,1 @@
+web: gunicorn oose-2016-group-13:app --log-file -

@@ -87,3 +87,7 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# MongoDB local
+data/
+log/

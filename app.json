@@ -1,0 +1,8 @@
+{
+  "name": "PlanIt Backend",
+  "description": "Python Flask Backend for 2016-group-13",
+  "image": "heroku/python",
+  "repository": "https://github.com/mbugrahanc/2016-group-13-backend",
+  "keywords": ["python", "flask" ],
+  "addons": [ "mongolab" ]
+}
