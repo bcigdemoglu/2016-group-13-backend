@@ -1,10 +1,14 @@
 # 2016-group-13-backend
 
-## This is the Python-Flask backend repo for 2016-group-13.
+This is the Python-Flask backend repo for 2016-group-13.
 
-[Implementing your own API call](#apicall)
+<!-- TOC START min:2 max:5 link:true update:true -->
+  - [Setting up the environment](#setting-up-the-environment)
+  - [Making an API call](#making-an-api-call)
 
-Setting up the environment:
+<!-- TOC END -->
+
+## Setting up the environment
 ```bash
 # Clone the repo
 git clone https://github.com/mbugrahanc/2016-group-13-backend.git
@@ -33,12 +37,12 @@ pip install -r requirements.txt
 deactivate
 ```
 
-Always run the virtual environment when working locally:
+Always run the virtual environment when working locally
 ```bash
 . venv/bin/activate
 ```
 
-To test RESTful API locally (must have mongo installed):
+To test RESTful API locally (must have mongo installed)
 ```bash
 . restful_test.sh
 ```
@@ -66,7 +70,7 @@ Flask reference:
 http://flask.pocoo.org/docs/0.10/.latex/Flask.pdf
 https://flask-pymongo.readthedocs.io/en/latest/
 
-### <a name="apicall"></a>Making an API call:
+## Making an API call
 We can make API calls by directing them to https://oose-2016-group-13.herokuapp.com/
 ```bash
 curl -v -X GET \
@@ -74,7 +78,7 @@ curl -v -X GET \
     -d '{}' \
     https://oose-2016-group-13.herokuapp.com/
 
-# Returns
+ # Returns
 {
   "status": "OK",
   "mongo": "Database(MongoClient(host=['ds053126.mlab.com:53126'], document_class=dict, tz_aware=True, connect=True, replicaset=None), u'heroku_wxn3r3t7')"
