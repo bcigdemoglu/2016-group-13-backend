@@ -1,3 +1,5 @@
+#!/bin/bash
+
 dbpath="./data/db"
 dblog="./log/mongod.log"
 dbport="27017"
