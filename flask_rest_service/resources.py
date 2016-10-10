@@ -9,6 +9,13 @@ from bson.objectid import ObjectId
 def hello(bro):
     return 'Hello World %s' % bro
 
+class Root(restful.Resource):
+    def get(self):
+        return {
+            'status': 'OK',
+            'mongo': str(mongo.db),
+        }
+
 class ReadingList(restful.Resource):
     def __init__(self, *args, **kwargs):
         self.parser = reqparse.RequestParser()
@@ -37,14 +44,6 @@ class Reading(restful.Resource):
         mongo.db.readings.find_one_or_404({"_id": reading_id})
         mongo.db.readings.remove({"_id": reading_id})
         return '', 204
-
-
-class Root(restful.Resource):
-    def get(self):
-        return {
-            'status': 'OK',
-            'mongo': str(mongo.db),
-        }
 
 api.add_resource(Root, '/')
 api.add_resource(ReadingList, '/readings/')

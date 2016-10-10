@@ -2,6 +2,8 @@
 
 ## This is the Python-Flask backend repo for 2016-group-13.
 
+[Implementing your own API call](#apicall)
+
 Setting up the environment:
 ```bash
 # Clone the repo
@@ -59,3 +61,43 @@ alias herokurun='heroku ps:scale web=1'
 alias herokustop='heroku ps:scale web=0'
 alias herokupush='git push heroku master'
 ```
+
+Flask reference:
+http://flask.pocoo.org/docs/0.10/.latex/Flask.pdf
+https://flask-pymongo.readthedocs.io/en/latest/
+
+### <a name="apicall"></a>Making an API call:
+We can make API calls by directing them to https://oose-2016-group-13.herokuapp.com/
+```bash
+curl -v -X GET \
+    -H "Content-Type: application/json" \
+    -d '{}' \
+    https://oose-2016-group-13.herokuapp.com/
+
+# Returns
+{
+  "status": "OK",
+  "mongo": "Database(MongoClient(host=['ds053126.mlab.com:53126'], document_class=dict, tz_aware=True, connect=True, replicaset=None), u'heroku_wxn3r3t7')"
+}
+```
+
+This can be coded in flask_rest_service/resources.py using flask as:
+```python
+@app.route('/')
+def hello():
+    return {
+            'status': 'OK',
+            'mongo': str(mongo.db),
+        }
+```
+Or using flask_restful library:
+```python
+class Root(restful.Resource):
+    def get(self):
+        return {
+            'status': 'OK',
+            'mongo': str(mongo.db),
+        }
+api.add_resource(Root, '/')
+```
+See here for additional resources: http://flask.pocoo.org/docs/0.11/quickstart/
