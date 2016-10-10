@@ -1,6 +1,11 @@
 # 2016-group-13-backend
 
-This is the Python-Flask backend repo for 2016-group-13.
+## This is the Python-Flask backend repo for 2016-group-13.
+
+Always run the backend locally:
+```bash
+. venv/bin/activate
+```
 
 To test RESTful API locally (must have mongo installed):
 ```bash
