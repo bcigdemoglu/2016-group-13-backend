@@ -1,13 +1,22 @@
-import json
-from flask import request, abort
+from flask import request, abort, json
 import flask_restful as restful
 from flask_restful import reqparse
 from flask_rest_service import app, api, mongo
 from bson.objectid import ObjectId
 
-@app.route('/hello/<bro>')
-def hello(bro):
-    return 'Hello World %s' % bro
+class Inserter(restful.Resource):
+    def get(self):
+        testing_id = mongo.db.testing.insert({"trial_key" : "trial_val"})
+        return mongo.db.testing.find_one({"_id": testing_id})
+
+@app.route('/rem', methods=['GET'])
+def remove_from_database():
+    testing_id = mongo.db.testing.remove({"trial_key": "trial_val"})
+    return testing_id
+
+class Finder(restful.Resource):
+    def get(self):
+        return [x for x in mongo.db.testing.find({"trial_key": "trial_val"})]
 
 class Root(restful.Resource):
     def get(self):
@@ -48,3 +57,6 @@ class Reading(restful.Resource):
 api.add_resource(Root, '/')
 api.add_resource(ReadingList, '/readings/')
 api.add_resource(Reading, '/readings/<ObjectId:reading_id>')
+
+api.add_resource(Finder, '/find')
+api.add_resource(Inserter, '/ins')

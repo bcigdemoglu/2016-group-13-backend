@@ -8,22 +8,32 @@ apihost="127.0.0.1"
 apiserver="http://$apihost:$apiport"
 testscript="./run_server.py"
 
-echo "Activate virtual environment"
-sh ./venv/bin/activate
+echo "Killing local test server"
+ps ax | grep run_server.py | awk '{print $1}' | xargs kill
 
-echo "Check requirements"
+echo "Killing mongo database file"
+pgrep mongod | xargs kill
+
+echo "Activating virtual environment"
+. ./venv/bin/activate
+
+echo "Updating dependencies"
 pip install -r requirements.txt
 
-echo "Remove existing database files"
+echo "Removing existing database files"
 rm -r "$dbpath"
 
-echo "Create clean database folder"
+echo "Creating clean database folder"
 mkdir -p "$dbpath"
 
-echo "Start mongo"
+echo "Starting mongo"
 mongod --fork --logpath "$dblog" --port "$dbport" --dbpath "$dbpath"
 
-echo "Run test server"
+echo "Waiting for mongod to run"
+while ! nc -vz "$apihost" "$dbport"; do sleep 1; done
+echo "Mongod successfully up"
+
+echo "Running test server"
 python "$testscript" &
 
 echo "Waiting for the test server to run"
@@ -39,21 +49,21 @@ echo "----------------------------------------------------------------"
 curl -v -X GET \
     -H "Content-Type: application/json" \
     -d '{}' \
-    "$apiserver"/
+    "$apiserver"/find
 
 echo -e "\n\n"
 
 curl -v -X GET \
     -H "Content-Type: application/json" \
     -d '{}' \
-    "$apiserver"/readings/
+    "$apiserver"/ins
 
 echo -e "\n\n"
 
 curl -v -X GET \
     -H "Content-Type: application/json" \
     -d '{}' \
-    "$apiserver"/hello/broname
+    "$apiserver"/find
 
 echo -e "\n\n"
 
@@ -71,8 +81,11 @@ echo -e "\n\n"
 
 # echo "\n\n"
 
-echo "Kill local test server"
+echo "Killing local test server"
 ps ax | grep run_server.py | awk '{print $1}' | xargs kill
 
-echo "Kill mongo database file"
+echo "Killing mongo database file"
 pgrep mongod | xargs kill
+
+echo "Exiting virtual environment"
+deactivate

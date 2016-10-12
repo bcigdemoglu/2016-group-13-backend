@@ -24,7 +24,7 @@ virtualenv venv
 # Login to heroku
 heroku login
 
-# Activate virtual environment (must be run every time the folder is accessed)
+# Activate virtual environment (must be run every time)
 . venv/bin/activate
 
 # Update dependencies
